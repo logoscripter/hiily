@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For My Favorite Girl 💜</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+  html, body { width: 100%; overflow-x: hidden; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #05010d;
+    color: #fff;
+    cursor: none;
+    position: relative;
+  }
+
+  .cursor {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #ff4fd8;
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen; box-shadow: 0 0 18px #ff4fd8;
+  }
+
+  .bg { position: fixed; inset: 0; overflow: hidden; z-index: -3; }
+  .circle {
+    position: absolute; border-radius: 50%; background: rgba(255,255,255,0.05);
+    animation: float 18s linear infinite;
+  }
+  .circle:nth-child(1) { width: 300px; height: 300px; left: 10%; top: 85%; animation-duration: 24s; }
+  .circle:nth-child(2) { width: 220px; height: 220px; left: 72%; top: 92%; animation-duration: 20s; }
+  .circle:nth-child(3) { width: 380px; height: 380px; left: 42%; top: 100%; animation-duration: 28s; }
+  @keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-125vh) rotate(360deg); }
+  }
+
+  .loader {
+    position: fixed; inset: 0; background: #05010d; display: flex;
+    align-items: center; justify-content: center; flex-direction: column;
+    z-index: 99999; transition: opacity 0.7s ease;
+  }
+  .loader h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    text-align: center;
+    background: linear-gradient(90deg, #ff4fd8, #8b5cf6, #00d4ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: pulse 1.4s infinite;
+    padding: 0 16px;
+  }
+  .loader p { margin-top: 10px; color: #cfcfcf; font-size: 0.98rem; }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+  .hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center; padding: 88px 20px 40px;
+  }
+  .hero h1 {
+    font-size: clamp(2.7rem, 8vw, 5.2rem); max-width: 1100px; line-height: 1.03;
+    background: linear-gradient(90deg, #ff4fd8, #8b5cf6, #00d4ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: glow 3s infinite alternate;
+    min-height: 1.2em;
+  }
+  .hero p {
+    margin-top: 18px; max-width: 780px; line-height: 1.8; color: #ddd; font-size: 1.08rem;
+  }
+  .scroll { margin-top: 38px; font-size: 2rem; animation: bounce 2s infinite; }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+  @keyframes glow {
+    0% { filter: drop-shadow(0 0 10px #ff4fd8); }
+    100% { filter: drop-shadow(0 0 30px #00d4ff); }
+  }
+
+  nav {
+    position: fixed; top: 0; width: 100%; padding: 14px 12px;
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
+    background: rgba(0,0,0,.28); backdrop-filter: blur(10px); z-index: 999;
+  }
+  nav a {
+    text-decoration: none; color: white; padding: 10px 16px; border-radius: 999px;
+    background: rgba(255,255,255,.08); transition: transform .25s ease, background .25s ease;
+    font-size: .92rem;
+  }
+  nav a:hover { transform: translateY(-3px); background: linear-gradient(90deg, #ff4fd8, #8b5cf6); }
+
+  .chapter {
+    min-height: 100vh; padding: 110px 8% 70px; display: flex; align-items: center; justify-content: center;
+  }
+  .card {
+    width: min(1000px, 100%);
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.09);
+    padding: clamp(24px, 4vw, 46px);
+    border-radius: 30px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 0 40px rgba(255,255,255,.04);
+    transform: translateY(60px);
+    opacity: 0;
+    transition: opacity .9s ease, transform .9s ease;
+  }
+  .card.show { opacity: 1; transform: translateY(0); }
+  .chapter h2 {
+    font-size: clamp(1.9rem, 4vw, 3rem); margin-bottom: 18px;
+    background: linear-gradient(90deg, #ff7cf5, #8b5cf6, #00d4ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .chapter p { line-height: 1.9; margin-bottom: 18px; color: #d7d7d7; }
+
+  .love-note {
+    margin: 22px 0; padding: 18px 20px; border-radius: 20px;
+    background: linear-gradient(90deg, rgba(255,79,216,.13), rgba(139,92,246,.13));
+    border: 1px solid rgba(255,255,255,.1); font-style: italic;
+    animation: pulse2 3s infinite;
+  }
+  @keyframes pulse2 { 0%,100% { transform: scale(1); } 50% { transform: scale(1.015); } }
+
+  .keywords { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0 10px; }
+  .keywords span {
+    padding: 10px 18px; border-radius: 999px; font-size: .9rem;
+    background: linear-gradient(90deg, #ff4fd8, #8b5cf6);
+    animation: floaty 2s infinite alternate;
+  }
+  @keyframes floaty { 0% { transform: translateY(0); } 100% { transform: translateY(-5px); } }
+
+  .qa { margin-top: 28px; }
+  .qa h3 { margin-bottom: 14px; font-size: 1.45rem; color: #00d4ff; }
+  .question {
+    padding: 18px 18px; background: rgba(255,255,255,.04); border-radius: 20px;
+    margin-bottom: 14px; transition: transform .25s ease, background .25s ease;
+  }
+  .question:hover { transform: scale(1.02); background: rgba(255,255,255,.08); }
+
+  .footer {
+    padding: 80px 20px 110px; text-align: center;
+  }
+  .footer h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    background: linear-gradient(90deg, #ff4fd8, #8b5cf6, #00d4ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 12px;
+  }
+  .footer p { color: #bbb; }
+
+  .music-btn {
+    position: fixed; right: 18px; bottom: 18px; z-index: 9999;
+    padding: 14px 18px; border: 0; border-radius: 999px; color: #fff;
+    background: linear-gradient(90deg, #ff4fd8, #8b5cf6); font-weight: 700;
+    box-shadow: 0 0 20px rgba(255,0,200,.35);
+  }
+
+  .heart {
+    position: fixed; pointer-events: none; z-index: 9999; font-size: 20px;
+    animation: heartFloat 2s linear forwards;
+  }
+  @keyframes heartFloat {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.8); }
+  }
+
+  @media (max-width: 768px) {
+    body { cursor: auto; }
+    .cursor { display: none; }
+    .hero { padding-top: 90px; }
+    .card { border-radius: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<div class="loader" id="loader" aria-label="Loading screen">
+  <h1>Loading Your Cute Study Website 💜</h1>
+  <p>Just a sec, pretty things take a moment ✨</p>
+</div>
+
+<div class="bg" aria-hidden="true">
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+</div>
+
+<nav>
+  <a href="#c1">Letter To God</a>
+  <a href="#c2">Mandela</a>
+  <a href="#c3">Flying</a>
+  <a href="#c4">Surgery</a>
+  <a href="#c5">Thief</a>
+  <a href="#c6">Visitor</a>
+</nav>
+
+<section class="hero">
+  <h1 id="typewriter"></h1>
+  <p>
+    I made this glowing little study site so revising feels a bit softer and a lot prettier 💜
+    Tap around, scroll slowly, and pretend the chapters are being nice for once.
+  </p>
+  <div class="scroll">⬇</div>
+</section>
+
+<section class="chapter" id="c1">
+  <div class="card">
+    <h2>✨ Chapter 1 — A Letter To God</h2>
+    <p>Lencho was a simple farmer who lived on the crest of a low hill. His entire life depended on his cornfield and the rain. One evening, dark clouds appeared and Lencho happily called the raindrops “new coins” because good rain meant a rich harvest. But suddenly the weather changed. Huge hailstones began falling from the sky and completely destroyed the crops. The field looked white as if covered in salt. Lencho sadly said that even a plague of locusts would have caused less damage.</p>
+    <p>Even after losing everything, Lencho never lost faith in God. He believed God sees everything, so he wrote a letter asking for 100 pesos to help him survive and grow crops again. The postmaster and the employees at the post office were deeply moved by his faith. They collected money together and sent him 70 pesos in an envelope signed by “God.”</p>
+    <p>When Lencho opened the letter, he wasn’t surprised at all because he completely trusted God. But when he counted the money and saw only 70 pesos, he became angry. He wrote another letter asking God for the remaining money and warned Him not to send it through the post office because the employees were “a bunch of crooks.” The ending is deeply ironic because the very people who helped Lencho were accused by him.</p>
+    <div class="love-note">Lowkey Lencho trusted God more than people trust their internet connection 😭</div>
+    <div class="keywords"><span>Faith</span><span>Irony</span><span>Lencho</span><span>Pesos</span></div>
+    <div class="qa">
+      <h3>Important Questions</h3>
+      <div class="question"><b>Q:</b> Why did Lencho write to God?<br><br><b>A:</b> Because his crops were destroyed and he needed money to survive.</div>
+      <div class="question"><b>Q:</b> Why is the story ironic?<br><br><b>A:</b> The people helping Lencho were called thieves by him.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="c2">
+  <div class="card">
+    <h2>👑 Mandela — The Real Sigma</h2>
+    <p>This chapter is taken from Nelson Mandela’s autobiography <i>Long Walk to Freedom</i>. It describes the historic day of May 10, 1994, when Mandela became the first black President of South Africa. The ceremony took place in Pretoria in the presence of leaders from more than 140 countries. It was not just the celebration of a new government, but the victory of justice, equality, and democracy after years of struggle.</p>
+    <p>Before this, South Africa was ruled by the cruel system of Apartheid. Under Apartheid, black people were treated unfairly, denied rights, and separated from white people in every part of life. Mandela explains that this system caused pain, suffering, humiliation, and poverty for millions of people. However, the struggle against Apartheid also created brave leaders like Oliver Tambo, Walter Sisulu, and many others who sacrificed their personal lives for freedom.</p>
+    <p>Mandela shares one of the most important lessons of his life: courage is not the absence of fear, but the triumph over it. He explains that even brave people feel fear, but they learn to overcome it. He also talks about the “twin obligations” every human being has — one towards family and another towards society and the country. Under Apartheid, black people were often forced to choose between these responsibilities because they were denied freedom and basic dignity.</p>
+    <p>Mandela describes how his understanding of freedom changed as he grew older. As a child, he believed freedom meant playing in fields and running freely. As a young man, he wanted personal freedom, such as staying out late or making his own choices. But later, he realised that true freedom means equality, respect, and justice for everyone. He understood that his own freedom was incomplete while his people remained oppressed.</p>
+    <p>One of the deepest ideas in the chapter is Mandela’s belief that even the oppressor is not truly free. According to him, hatred, prejudice, and narrow-mindedness make oppressors prisoners of their own cruelty. Therefore, both the oppressed and the oppressor need liberation. The chapter ends with a message of hope, humanity, forgiveness, and equality, making it one of the most inspiring lessons in the entire book.</p>
+    <div class="love-note">If Mandela survived all that, you can survive board exams too 😤✨</div>
+    <div class="keywords"><span>Freedom</span><span>Apartheid</span><span>Courage</span><span>Equality</span></div>
+    <div class="qa">
+      <h3>Important Questions</h3>
+      <div class="question"><b>Q:</b> What is Apartheid?<br><br><b>A:</b> A system of racial discrimination in South Africa.</div>
+      <div class="question"><b>Q:</b> What is courage according to Mandela?<br><br><b>A:</b> Courage is the triumph over fear.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="c3">
+  <div class="card">
+    <h2>🕊 The Seagull Who Needed Character Development</h2>
+    <p>The first story, “His First Flight,” is about a young seagull who was terrified of flying. While his brothers and sisters had already learned to fly, he stayed alone on the ledge because he thought his wings would fail him. His parents tried encouraging, scolding, and even starving him so he would finally gather the courage to fly.</p>
+    <p>At last, hunger became too powerful. His mother flew near him carrying a piece of fish, but stopped just out of reach. Desperate for food, the seagull jumped forward and suddenly began flying naturally. He realised his fear had existed only in his mind. The story teaches self-confidence and courage.</p>
+    <p>The second story, “The Black Aeroplane,” follows a pilot flying through a storm at night. His compass and radio stopped working, and he became lost in the dark clouds. Suddenly, a mysterious black aeroplane appeared and guided him safely through the storm. But after landing, he discovered no other plane had been flying that night. The identity of the mysterious pilot remains an unsolved mystery.</p>
+    <div class="love-note">Basically: stop overthinking and jump 😭✨</div>
+    <div class="keywords"><span>Fear</span><span>Confidence</span><span>Storm</span><span>Mystery</span></div>
+    <div class="qa">
+      <h3>Important Questions</h3>
+      <div class="question"><b>Q:</b> Why was the seagull afraid?<br><br><b>A:</b> He thought his wings wouldn’t support him.</div>
+      <div class="question"><b>Q:</b> Why is the black aeroplane mysterious?<br><br><b>A:</b> Nobody knows who the pilot was.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="c4">
+  <div class="card">
+    <h2>🐶 The Most Overfed Dog Ever</h2>
+    <p>“A Triumph of Surgery” is a humorous story written by James Herriot. It revolves around a small dog named Tricki and his extremely emotional owner, Mrs. Pumphrey. She loved Tricki so much that she constantly spoiled him with rich foods like cream cakes, chocolates, eggs, Horlicks, wine, and many other unhealthy treats. Because of this lifestyle, Tricki became hugely fat, lazy, and unhealthy. He stopped playing, refused exercise, and looked sick all the time.</p>
+    <p>Mrs. Pumphrey believed Tricki was weak because of malnutrition, but Dr. Herriot immediately understood the real problem was overfeeding. He warned her that Tricki would become seriously ill if his lifestyle did not change. Since Mrs. Pumphrey was too emotional to control herself around Tricki, Dr. Herriot decided to take the dog to his clinic for treatment.</p>
+    <p>At the clinic, the treatment was surprisingly simple. Dr. Herriot gave Tricki no medicines or surgery at all. For the first two days, Tricki was only given water and no food. Slowly, he began recovering. Soon he started playing with the other dogs, running in the garden, and becoming energetic again. Exercise, discipline, and proper food transformed him completely into a healthy and active dog.</p>
+    <p>Meanwhile, Mrs. Pumphrey kept sending baskets full of eggs, bottles of wine, and special food items for Tricki’s “recovery.” Ironically, Dr. Herriot and his friends enjoyed most of these luxurious foods themselves while Tricki became healthy through simple living. This adds humour to the story and shows how unnecessary luxury had actually made Tricki ill.</p>
+    <p>When Tricki finally returned home healthy and cheerful, Mrs. Pumphrey became emotional and called the entire experience a “Triumph of Surgery.” The title is ironic because no surgery had actually taken place. The story teaches the importance of discipline, healthy habits, and balanced love instead of excessive pampering.</p>
+    <div class="love-note">Mrs. Pumphrey loved Tricki the way you love snacks 😭</div>
+    <div class="keywords"><span>Tricki</span><span>Health</span><span>Diet</span><span>Irony</span></div>
+    <div class="qa">
+      <h3>Important Questions</h3>
+      <div class="question"><b>Q:</b> Why was Tricki ill?<br><br><b>A:</b> Because of overfeeding.</div>
+      <div class="question"><b>Q:</b> Why is the title ironic?<br><br><b>A:</b> No surgery actually happened.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="c5">
+  <div class="card">
+    <h2>💰 The Thief Who Got Emotional</h2>
+    <p>“The Thief’s Story” by Ruskin Bond is about a young thief named Hari Singh who slowly changes into a better person because of kindness and trust. Hari was only fifteen years old and survived by cheating and stealing from people. He often changed his name to avoid getting caught by the police. One day, he met a simple and kind-hearted writer named Anil during a wrestling match and cleverly convinced him to hire him as a servant.</p>
+    <p>Hari lied about knowing how to cook, but his first meal was terrible. Even then, Anil did not throw him out. Instead, he patiently taught Hari cooking and later even promised to teach him how to read and write. This deeply affected Hari because he realised education could completely change his future and help him earn money honestly.</p>
+    <p>Anil earned money irregularly by writing articles. One evening, he returned home with six hundred rupees and placed the money under his mattress. Hari’s old habits returned immediately. Late at night, he quietly stole the money and ran towards the railway station to catch a train and escape.</p>
+    <p>However, while standing at the station, Hari began feeling guilty. He realised that Anil had trusted him completely and had never treated him badly. More importantly, Hari understood that learning to read and write was far more valuable than stolen money. He thought education could make him respected and independent in the future.</p>
+    <p>Finally, Hari returned to Anil’s house in the rain and secretly placed the money back under the mattress. The next morning, Anil gave him a damp fifty-rupee note and promised to pay him regularly. Both silently understood what had happened, but Anil chose forgiveness instead of punishment. The story beautifully highlights the power of trust, compassion, forgiveness, and education in transforming human character.</p>
+    <div class="love-note">Anil literally fixed bro with kindness 😭</div>
+    <div class="keywords"><span>Trust</span><span>Kindness</span><span>Education</span><span>Transformation</span></div>
+    <div class="qa">
+      <h3>Important Questions</h3>
+      <div class="question"><b>Q:</b> Why did Hari return the money?<br><br><b>A:</b> He felt guilty and respected Anil’s trust.</div>
+      <div class="question"><b>Q:</b> What changed Hari?<br><br><b>A:</b> Kindness and education.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="c6">
+  <div class="card">
+    <h2>🔫 The Fake Balcony Incident</h2>
+    <p>“The Midnight Visitor” is an exciting spy story written by Robert Arthur. The story begins when Fowler, a young writer, visits Ausable hoping to meet a glamorous and dangerous secret agent like those shown in movies. However, he feels disappointed after meeting Ausable because he is fat, calm, speaks with a heavy accent, and looks completely ordinary.</p>
+    <p>But Fowler soon realises that real intelligence matters more than appearance. One night, when Ausable enters his hotel room, he finds another spy named Max waiting there with a gun. Max wants to steal an important secret report about missiles that Ausable is expecting to receive.</p>
+    <p>Even in such a dangerous situation, Ausable remains calm and composed. Instead of panicking, he cleverly invents a story about a balcony outside his room and claims that intruders often enter through it. Max becomes convinced that the balcony is real. Suddenly, there is a loud knock at the door. Ausable calmly tells Max that it must be the police, whom he had called earlier for protection.</p>
+    <p>Max becomes terrified because he does not want to get caught by the police. Thinking quickly, he decides to escape through the “balcony.” He jumps out of the window — only to discover too late that no balcony actually exists. Max falls to his death while the person at the door turns out to be only a waiter bringing drinks.</p>
+    <p>The story ends with Fowler finally understanding why Ausable is such an effective secret agent. Without using physical force or weapons, Ausable defeats a dangerous criminal simply through intelligence, confidence, and presence of mind. The story teaches that quick thinking and mental strength are more powerful than physical appearance or violence.</p>
+    <div class="love-note">Bro got outsmarted so hard 😭</div>
+    <div class="keywords"><span>Spy</span><span>Intelligence</span><span>Presence of Mind</span><span>Mystery</span></div>
+    <div class="qa">
+      <h3>Important Questions</h3>
+      <div class="question"><b>Q:</b> How did Ausable defeat Max?<br><br><b>A:</b> By fooling him with a fake balcony story.</div>
+      <div class="question"><b>Q:</b> Main message?<br><br><b>A:</b> Intelligence is stronger than force.</div>
+    </div>
+  </div>
+</section>
+
+<section class="footer">
+  <h2>Now go become the topper I brag about 😌💜</h2>
+  <p>Made with way too much effort and love ✨</p>
+</section>
+
+<button class="music-btn" onclick="toggleMusic()">🎵 Music</button>
+<audio id="music" loop preload="none">
+  <source src="YOUR_MUSIC_LINK_HERE.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  // Loader fix: hide on full page load, with a fallback so it never gets stuck.
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    if (!loader) return;
+    loader.style.opacity = '0';
+    setTimeout(() => { loader.style.display = 'none'; }, 700);
+  });
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    if (loader && loader.style.display !== 'none') {
+      loader.style.opacity = '0';
+      loader.style.display = 'none';
+    }
+  }, 5000);
+
+  // Typewriter
+  const text = 'For The Prettiest Girl In My Universe 💜';
+  const typeEl = document.getElementById('typewriter');
+  let i = 0;
+  (function typing() {
+    if (!typeEl) return;
+    if (i < text.length) {
+      typeEl.textContent += text.charAt(i++);
+      setTimeout(typing, 70);
+    }
+  })();
+
+  // Reveal cards on scroll
+  const cards = document.querySelectorAll('.card');
+  function revealCards() {
+    cards.forEach(card => {
+      const top = card.getBoundingClientRect().top;
+      if (top < window.innerHeight - 100) card.classList.add('show');
+    });
+  }
+  window.addEventListener('scroll', revealCards);
+  window.addEventListener('load', revealCards);
+  revealCards();
+
+  // Cursor
+  const cursor = document.querySelector('.cursor');
+  document.addEventListener('mousemove', (e) => {
+    if (!cursor) return;
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  // Hearts on click
+  document.addEventListener('click', (e) => {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '💜';
+    heart.style.left = e.clientX + 'px';
+    heart.style.top = e.clientY + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2000);
+  });
+
+  // Music toggle
+  const music = document.getElementById('music');
+  function toggleMusic() {
+    if (!music) return;
+    if (music.paused) music.play().catch(() => {});
+    else music.pause();
+  }
+</script>
+</body>
+</html>
